@@ -213,6 +213,27 @@ List of available routes:
 `PATCH /v1/users/:userId` - update user\
 `DELETE /v1/users/:userId` - delete user
 
+**Task routes**:\
+`POST /v1/tasks` - create a task\
+`GET /v1/tasks` - get all tasks for the authenticated user\
+`GET /v1/tasks/:taskId` - get task by ID\
+`PATCH /v1/tasks/:taskId` - update task by ID\
+`DELETE /v1/tasks/:taskId` - delete task by ID
+
+All task routes require a valid JWT access token in the `Authorization` header. Tasks are always scoped to the authenticated user, so each user can only list, read, update, and delete their own tasks.
+
+### Tasks
+
+The task module lets authenticated users manage personal tasks with a simple CRUD flow.
+
+`POST /v1/tasks` creates a new task. The `title` field is required, and you can also send `description`, `status` (`pending`, `in_progress`, or `done`), and `dueDate`.
+`GET /v1/tasks` returns a paginated list of the current user's tasks. You can filter by `status` and sort with `sortBy`, `limit`, and `page` query parameters.
+`GET /v1/tasks/:taskId` returns a single task if it belongs to the authenticated user.
+`PATCH /v1/tasks/:taskId` updates the selected task. The same fields accepted on creation can be updated.
+`DELETE /v1/tasks/:taskId` removes the selected task.
+
+If a task does not belong to the authenticated user, the API returns `404 Not Found`.
+
 ## Error Handling
 
 The app has a centralized error handling mechanism.

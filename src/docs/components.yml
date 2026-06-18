@@ -47,7 +47,42 @@ components:
         message:
           type: string
 
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, done]
+        dueDate:
+          type: string
+          format: date-time
+          nullable: true
+        user:
+          type: string
+      example:
+        id: 60c72b2f9b1e8b001f8e4c21
+        title: Implementar testes unitários
+        description: Cobrir o módulo de tarefas com Jest
+        status: pending
+        dueDate: 2026-06-01T00:00:00.000Z
+        user: 60c72b2f9b1e8b001f8e4c20
+
   responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Invalid input
     DuplicateEmail:
       description: Email already taken
       content:

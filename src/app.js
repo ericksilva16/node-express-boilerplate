@@ -22,7 +22,13 @@ if (config.env !== 'test') {
 }
 
 // set security HTTP headers
-app.use(helmet());
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith('/v1/docs')) {
+    return helmet({ contentSecurityPolicy: false })(req, res, next);
+  }
+
+  return helmet()(req, res, next);
+});
 
 // parse json request body
 app.use(express.json());
